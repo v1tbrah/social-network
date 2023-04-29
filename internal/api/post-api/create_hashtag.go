@@ -14,11 +14,11 @@ import (
 )
 
 type CreateHashtagReq struct {
-	Name string `json:"name"`
+	Name string `json:"name" example:"#cat"`
 }
 
 type CreateHashtagResp struct {
-	ID int64 `json:"id"`
+	ID int64 `json:"id" example:"1"`
 }
 
 // CreateHashtag creates hashtag.

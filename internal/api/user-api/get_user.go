@@ -13,14 +13,14 @@ import (
 )
 
 type GetUserReq struct {
-	ID string `json:"id"`
+	ID string `json:"id" example:"1"`
 }
 
 type GetUserResp struct {
-	Name        string  `json:"name"`
-	Surname     string  `json:"surname"`
-	InterestsID []int64 `json:"interests_id"`
-	CityID      int64   `json:"city_id"`
+	Name        string  `json:"name" example:"John"`
+	Surname     string  `json:"surname" example:"Doe"`
+	InterestsID []int64 `json:"interests_id" example:"1,2,3"`
+	CityID      int64   `json:"city_id" example:"1"`
 }
 
 // GetUser returns user.

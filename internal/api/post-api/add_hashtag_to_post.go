@@ -13,8 +13,8 @@ import (
 )
 
 type AddHashtagToPostReq struct {
-	PostID    int64 `json:"post_id"`
-	HashtagID int64 `json:"hashtag_id"`
+	PostID    int64 `json:"post_id" example:"1"`
+	HashtagID int64 `json:"hashtag_id" example:"1"`
 }
 
 // AddHashtagToPost creates hashtag.

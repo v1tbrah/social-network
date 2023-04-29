@@ -14,11 +14,11 @@ import (
 )
 
 type CreateCityReq struct {
-	Name string `json:"name"`
+	Name string `json:"name" example:"Moscow"`
 }
 
 type CreateCityResp struct {
-	ID int64 `json:"id"`
+	ID int64 `json:"id" example:"1"`
 }
 
 // CreateCity creates city.

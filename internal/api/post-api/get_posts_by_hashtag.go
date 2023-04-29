@@ -14,10 +14,10 @@ import (
 )
 
 type GetPostsByHashtagReq struct {
-	HashtagID    int64     `json:"hashtagID"`
-	Direction    Direction `json:"direction"`
-	PostOffsetID int64     `json:"postOffsetID"`
-	Limit        int64     `json:"limit"`
+	HashtagID    int64     `json:"hashtagID" example:"1"`
+	Direction    Direction `json:"direction" example:"0"`
+	PostOffsetID int64     `json:"post_offset_id" example:"0"`
+	Limit        int64     `json:"limit" example:"10"`
 }
 
 type Direction int32
@@ -29,11 +29,11 @@ const (
 )
 
 type Post struct {
-	Id          int64     `json:"id"`
-	UserID      int64     `json:"user_id"`
-	Description string    `json:"description"`
-	HashtagsID  []int64   `json:"hashtags_id"`
-	CreatedAt   time.Time `json:"created_at"`
+	Id          int64     `json:"id" example:"1"`
+	UserID      int64     `json:"user_id" example:"1"`
+	Description string    `json:"description" example:"description"`
+	HashtagsID  []int64   `json:"hashtags_id" example:"1,2,3"`
+	CreatedAt   time.Time `json:"created_at" example:"2021-01-01T00:00:00Z"`
 }
 
 // GetPostsByHashtag returns posts by hashtag.
@@ -43,7 +43,7 @@ type Post struct {
 //	@Tags			post
 //	@Produce		json
 //
-//	@Param			objectBody	body		GetPostsByHashtagReq	true	"GetPostsByHashtagReq body"
+//	@Param			objectBody	body		GetPostsByHashtagReq	true	"GetPostsByHashtagReq body. Direction: 0 - first, 1 - next, 2 - prev"
 //
 //	@Success		200			{object}	[]Post
 //	@Success		204

@@ -13,8 +13,8 @@ import (
 )
 
 type GetHashtagResp struct {
-	ID   int64  `json:"id"`
-	Name string `json:"name"`
+	ID   int64  `json:"id" example:"1"`
+	Name string `json:"name" example:"#cat"`
 }
 
 // GetHashtag returns hashtag.
