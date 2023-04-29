@@ -13,12 +13,12 @@ import (
 )
 
 type GetCityReq struct {
-	ID string `json:"id"`
+	ID string `json:"id" example:"1"`
 }
 
 type GetCityResp struct {
-	ID   int64  `json:"id"`
-	Name string `json:"name"`
+	ID   int64  `json:"id" example:"1"`
+	Name string `json:"name" example:"Moscow"`
 }
 
 // GetCity returns city.

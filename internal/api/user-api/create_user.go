@@ -14,14 +14,14 @@ import (
 )
 
 type CreateUserReq struct {
-	Name        string  `json:"name"`
-	Surname     string  `json:"surname"`
-	InterestsID []int64 `json:"interests_id"`
-	CityID      int64   `json:"city_id"`
+	Name        string  `json:"name" example:"John"`
+	Surname     string  `json:"surname" example:"Doe"`
+	InterestsID []int64 `json:"interests_id" example:"1,2,3"`
+	CityID      int64   `json:"city_id" example:"1"`
 }
 
 type CreateUserResp struct {
-	ID int64 `json:"id"`
+	ID int64 `json:"id" example:"1"`
 }
 
 // CreateUser creates user.

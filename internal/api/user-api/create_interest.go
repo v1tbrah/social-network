@@ -14,11 +14,11 @@ import (
 )
 
 type CreateInterestReq struct {
-	Name string `json:"name"`
+	Name string `json:"name" example:"Music"`
 }
 
 type CreateInterestResp struct {
-	ID int64 `json:"id"`
+	ID int64 `json:"id" example:"1"`
 }
 
 // CreateInterest creates interest.

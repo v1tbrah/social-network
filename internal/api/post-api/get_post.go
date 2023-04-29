@@ -14,10 +14,10 @@ import (
 )
 
 type GetPostResp struct {
-	UserID      int64     `json:"user_id"`
-	Description string    `json:"description"`
-	HashtagsID  []int64   `json:"hashtags_id"`
-	CreatedAt   time.Time `json:"created_at"`
+	UserID      int64     `json:"user_id" example:"1"`
+	Description string    `json:"description" example:"My cat"`
+	HashtagsID  []int64   `json:"hashtags_id" example:"1,2,3"`
+	CreatedAt   time.Time `json:"created_at" example:"2021-01-01T00:00:00Z"`
 }
 
 // GetPost returns post.

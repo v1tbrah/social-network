@@ -13,10 +13,10 @@ import (
 )
 
 type GetFriendsByUserReq struct {
-	FriendID     int64     `json:"friend_id" example:"1"`
-	Direction    Direction `json:"direction" example:"1"`
-	PostOffsetID int64     `json:"postOffsetID" example:"11"`
-	Limit        int64     `json:"limit" example:"100"`
+	FriendID     int64     `json:"friend_id" example:"1" example:"2"`
+	Direction    Direction `json:"direction" example:"0"`
+	PostOffsetID int64     `json:"post_offset_id" example:"0" example:"0"`
+	Limit        int64     `json:"limit" example:"10"`
 }
 
 type Direction int32
@@ -34,7 +34,7 @@ const (
 //	@Tags			relation
 //	@Produce		json
 //
-//	@Param			objectBody	body		GetFriendsByUserReq	true	"GetFriendsByUserReq body"
+//	@Param			objectBody	body		GetFriendsByUserReq	true	"GetFriendsByUserReq body. Direction: 0 - first, 1 - next, 2 - prev"
 //
 //	@Success		200			{object}	[]int64
 //	@Success		204

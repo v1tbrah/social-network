@@ -140,8 +140,6 @@ services:
       - STORAGE_DB_NAME=neo4j
     expose:
       - "4040"
-    ports:
-      - "4040:4040"
     networks:
       - default-network
 

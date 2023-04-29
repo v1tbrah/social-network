@@ -177,7 +177,7 @@ const docTemplate = `{
                 "summary": "Returns posts by hashtag.",
                 "parameters": [
                     {
-                        "description": "GetPostsByHashtagReq body",
+                        "description": "GetPostsByHashtagReq body. Direction: 0 - first, 1 - next, 2 - prev",
                         "name": "objectBody",
                         "in": "body",
                         "required": true,
@@ -351,7 +351,7 @@ const docTemplate = `{
                 "summary": "Returns friends by user.",
                 "parameters": [
                     {
-                        "description": "GetFriendsByUserReq body",
+                        "description": "GetFriendsByUserReq body. Direction: 0 - first, 1 - next, 2 - prev",
                         "name": "objectBody",
                         "in": "body",
                         "required": true,
@@ -736,10 +736,12 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "hashtag_id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
                 },
                 "post_id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
                 }
             }
         },
@@ -747,7 +749,8 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "#cat"
                 }
             }
         },
@@ -755,32 +758,20 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
                 }
             }
         },
         "papi.CreatePostReq": {
-            "type": "object",
-            "properties": {
-                "description": {
-                    "type": "string"
-                },
-                "hashtags_id": {
-                    "type": "array",
-                    "items": {
-                        "type": "integer"
-                    }
-                },
-                "user_id": {
-                    "type": "integer"
-                }
-            }
+            "type": "object"
         },
         "papi.CreatePostResp": {
             "type": "object",
             "properties": {
                 "id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
                 }
             }
         },
@@ -801,10 +792,12 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
                 },
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "#cat"
                 }
             }
         },
@@ -812,19 +805,27 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "created_at": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2021-01-01T00:00:00Z"
                 },
                 "description": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "My cat"
                 },
                 "hashtags_id": {
                     "type": "array",
                     "items": {
                         "type": "integer"
-                    }
+                    },
+                    "example": [
+                        1,
+                        2,
+                        3
+                    ]
                 },
                 "user_id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
                 }
             }
         },
@@ -832,16 +833,24 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "direction": {
-                    "$ref": "#/definitions/papi.Direction"
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/papi.Direction"
+                        }
+                    ],
+                    "example": 0
                 },
                 "hashtagID": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
                 },
                 "limit": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 10
                 },
-                "postOffsetID": {
-                    "type": "integer"
+                "post_offset_id": {
+                    "type": "integer",
+                    "example": 0
                 }
             }
         },
@@ -849,22 +858,31 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "created_at": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2021-01-01T00:00:00Z"
                 },
                 "description": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "description"
                 },
                 "hashtags_id": {
                     "type": "array",
                     "items": {
                         "type": "integer"
-                    }
+                    },
+                    "example": [
+                        1,
+                        2,
+                        3
+                    ]
                 },
                 "id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
                 },
                 "user_id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
                 }
             }
         },
@@ -903,7 +921,7 @@ const docTemplate = `{
                             "$ref": "#/definitions/rapi.Direction"
                         }
                     ],
-                    "example": 1
+                    "example": 0
                 },
                 "friend_id": {
                     "type": "integer",
@@ -911,11 +929,11 @@ const docTemplate = `{
                 },
                 "limit": {
                     "type": "integer",
-                    "example": 100
+                    "example": 10
                 },
-                "postOffsetID": {
+                "post_offset_id": {
                     "type": "integer",
-                    "example": 11
+                    "example": 0
                 }
             }
         },
@@ -944,7 +962,8 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Moscow"
                 }
             }
         },
@@ -952,7 +971,8 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
                 }
             }
         },
@@ -960,7 +980,8 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Music"
                 }
             }
         },
@@ -968,7 +989,8 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
                 }
             }
         },
@@ -976,19 +998,27 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "city_id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
                 },
                 "interests_id": {
                     "type": "array",
                     "items": {
                         "type": "integer"
-                    }
+                    },
+                    "example": [
+                        1,
+                        2,
+                        3
+                    ]
                 },
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "John"
                 },
                 "surname": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Doe"
                 }
             }
         },
@@ -996,7 +1026,8 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
                 }
             }
         },
@@ -1004,10 +1035,12 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
                 },
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Moscow"
                 }
             }
         },
@@ -1015,7 +1048,8 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "id": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "1"
                 }
             }
         },
@@ -1023,19 +1057,27 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "city_id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
                 },
                 "interests_id": {
                     "type": "array",
                     "items": {
                         "type": "integer"
-                    }
+                    },
+                    "example": [
+                        1,
+                        2,
+                        3
+                    ]
                 },
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "John"
                 },
                 "surname": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Doe"
                 }
             }
         }

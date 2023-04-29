@@ -13,13 +13,13 @@ import (
 )
 
 type CreatePostReq struct {
-	UserID      int64   `json:"user_id"`
-	Description string  `json:"description"`
-	HashtagsID  []int64 `json:"hashtags_id"`
+	UserID      int64   `json:"user_id" example:"1"`
+	Description string  `json:"description" example:"description"`
+	HashtagsID  []int64 `json:"hashtags_id" example:"[1,2,3]"`
 }
 
 type CreatePostResp struct {
-	ID int64 `json:"id"`
+	ID int64 `json:"id" example:"1"`
 }
 
 // CreatePost creates post.
