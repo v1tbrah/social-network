@@ -1,0 +1,679 @@
+basePath: /
+definitions:
+  papi.AddHashtagToPostReq:
+    properties:
+      hashtag_id:
+        type: integer
+      post_id:
+        type: integer
+    type: object
+  papi.CreateHashtagReq:
+    properties:
+      name:
+        type: string
+    type: object
+  papi.CreateHashtagResp:
+    properties:
+      id:
+        type: integer
+    type: object
+  papi.CreatePostReq:
+    properties:
+      description:
+        type: string
+      hashtags_id:
+        items:
+          type: integer
+        type: array
+      user_id:
+        type: integer
+    type: object
+  papi.CreatePostResp:
+    properties:
+      id:
+        type: integer
+    type: object
+  papi.Direction:
+    enum:
+    - 0
+    - 1
+    - 2
+    type: integer
+    x-enum-varnames:
+    - First
+    - Next
+    - Prev
+  papi.GetHashtagResp:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  papi.GetPostResp:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      hashtags_id:
+        items:
+          type: integer
+        type: array
+      user_id:
+        type: integer
+    type: object
+  papi.GetPostsByHashtagReq:
+    properties:
+      direction:
+        $ref: '#/definitions/papi.Direction'
+      hashtagID:
+        type: integer
+      limit:
+        type: integer
+      postOffsetID:
+        type: integer
+    type: object
+  papi.Post:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      hashtags_id:
+        items:
+          type: integer
+        type: array
+      id:
+        type: integer
+      user_id:
+        type: integer
+    type: object
+  rapi.AddFriendReq:
+    properties:
+      friend_id:
+        example: 2
+        type: integer
+      user_id:
+        example: 1
+        type: integer
+    type: object
+  rapi.Direction:
+    enum:
+    - 0
+    - 1
+    - 2
+    type: integer
+    x-enum-varnames:
+    - First
+    - Next
+    - Prev
+  rapi.GetFriendsByUserReq:
+    properties:
+      direction:
+        allOf:
+        - $ref: '#/definitions/rapi.Direction'
+        example: 1
+      friend_id:
+        example: 1
+        type: integer
+      limit:
+        example: 100
+        type: integer
+      postOffsetID:
+        example: 11
+        type: integer
+    type: object
+  rapi.RemoveFriendReq:
+    properties:
+      friend_id:
+        example: 2
+        type: integer
+      user_id:
+        example: 1
+        type: integer
+    type: object
+  send.Error:
+    properties:
+      msg:
+        type: string
+    type: object
+  uapi.CreateCityReq:
+    properties:
+      name:
+        type: string
+    type: object
+  uapi.CreateCityResp:
+    properties:
+      id:
+        type: integer
+    type: object
+  uapi.CreateInterestReq:
+    properties:
+      name:
+        type: string
+    type: object
+  uapi.CreateInterestResp:
+    properties:
+      id:
+        type: integer
+    type: object
+  uapi.CreateUserReq:
+    properties:
+      city_id:
+        type: integer
+      interests_id:
+        items:
+          type: integer
+        type: array
+      name:
+        type: string
+      surname:
+        type: string
+    type: object
+  uapi.CreateUserResp:
+    properties:
+      id:
+        type: integer
+    type: object
+  uapi.GetCityResp:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  uapi.GetInterestReq:
+    properties:
+      id:
+        type: string
+    type: object
+  uapi.GetUserResp:
+    properties:
+      city_id:
+        type: integer
+      interests_id:
+        items:
+          type: integer
+        type: array
+      name:
+        type: string
+      surname:
+        type: string
+    type: object
+info:
+  contact: {}
+  description: This is a simple social-network server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: Social-network API
+  version: "1.0"
+paths:
+  /post/hashtag:
+    post:
+      description: Creates hashtag.
+      parameters:
+      - description: Hashtag body
+        in: body
+        name: objectBody
+        required: true
+        schema:
+          $ref: '#/definitions/papi.CreateHashtagReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/papi.CreateHashtagResp'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/send.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/send.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/send.Error'
+      summary: Creates hashtag.
+      tags:
+      - hashtag
+  /post/hashtag/{id}:
+    get:
+      description: Returns hashtag by id.
+      parameters:
+      - description: Hashtag id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/papi.GetHashtagResp'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/send.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/send.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/send.Error'
+      summary: Returns hashtag.
+      tags:
+      - city
+  /post/post:
+    post:
+      description: Creates post.
+      parameters:
+      - description: Post body
+        in: body
+        name: objectBody
+        required: true
+        schema:
+          $ref: '#/definitions/papi.CreatePostReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/papi.CreatePostResp'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/send.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/send.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/send.Error'
+      summary: Creates post.
+      tags:
+      - post
+  /post/post/{id}:
+    get:
+      description: Returns post by id.
+      parameters:
+      - description: Post id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/papi.GetPostResp'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/send.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/send.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/send.Error'
+      summary: Returns post.
+      tags:
+      - post
+  /post/post/get_by_hashtag:
+    post:
+      description: Returns posts by hashtag.
+      parameters:
+      - description: GetPostsByHashtagReq body
+        in: body
+        name: objectBody
+        required: true
+        schema:
+          $ref: '#/definitions/papi.GetPostsByHashtagReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/papi.Post'
+            type: array
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/send.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/send.Error'
+      summary: Returns posts by hashtag.
+      tags:
+      - post
+  /relation/friend:
+    delete:
+      description: Removes from friends.
+      parameters:
+      - description: RemoveFriendReq body
+        in: body
+        name: objectBody
+        required: true
+        schema:
+          $ref: '#/definitions/rapi.RemoveFriendReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/send.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/send.Error'
+      summary: Removes from friends.
+      tags:
+      - relation
+    post:
+      description: Adds to friends.
+      parameters:
+      - description: AddFriendReq body
+        in: body
+        name: objectBody
+        required: true
+        schema:
+          $ref: '#/definitions/rapi.AddFriendReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/send.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/send.Error'
+      summary: Adds to friends.
+      tags:
+      - relation
+  /relation/friend/get_friends_by_user:
+    post:
+      description: Returns friends by user.
+      parameters:
+      - description: GetFriendsByUserReq body
+        in: body
+        name: objectBody
+        required: true
+        schema:
+          $ref: '#/definitions/rapi.GetFriendsByUserReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              type: integer
+            type: array
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/send.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/send.Error'
+      summary: Returns friends by user.
+      tags:
+      - relation
+  /user/city:
+    get:
+      description: Returns all cities.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/uapi.GetCityResp'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/send.Error'
+      summary: Returns all cities.
+      tags:
+      - city
+    post:
+      description: Creates city.
+      parameters:
+      - description: City body
+        in: body
+        name: objectBody
+        required: true
+        schema:
+          $ref: '#/definitions/uapi.CreateCityReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/uapi.CreateCityResp'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/send.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/send.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/send.Error'
+      summary: Creates city.
+      tags:
+      - city
+  /user/city/{id}:
+    get:
+      description: Returns city by id.
+      parameters:
+      - description: City id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/uapi.GetCityResp'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/send.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/send.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/send.Error'
+      summary: Returns city.
+      tags:
+      - city
+  /user/interest:
+    get:
+      description: Returns all interests.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/uapi.GetCityResp'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/send.Error'
+      summary: Returns all interests.
+      tags:
+      - interest
+    post:
+      description: Creates interest.
+      parameters:
+      - description: Interest body
+        in: body
+        name: objectBody
+        required: true
+        schema:
+          $ref: '#/definitions/uapi.CreateInterestReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/uapi.CreateInterestResp'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/send.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/send.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/send.Error'
+      summary: Creates interest.
+      tags:
+      - interest
+  /user/interest/{id}:
+    get:
+      description: Returns interest by id.
+      parameters:
+      - description: Interest id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/uapi.GetInterestReq'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/send.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/send.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/send.Error'
+      summary: Returns interest.
+      tags:
+      - interest
+  /user/user:
+    post:
+      description: Creates user.
+      parameters:
+      - description: User body
+        in: body
+        name: objectBody
+        required: true
+        schema:
+          $ref: '#/definitions/uapi.CreateUserReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/uapi.CreateUserResp'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/send.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/send.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/send.Error'
+      summary: Creates user.
+      tags:
+      - user
+  /user/user/{id}:
+    get:
+      description: Returns user by id.
+      parameters:
+      - description: User id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/uapi.GetUserResp'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/send.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/send.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/send.Error'
+      summary: Returns user.
+      tags:
+      - user
+swagger: "2.0"
