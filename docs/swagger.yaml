@@ -1,5 +1,28 @@
 basePath: /
 definitions:
+  fapi.Post:
+    properties:
+      created_at:
+        example: "2021-01-01T00:00:00Z"
+        type: string
+      description:
+        example: description
+        type: string
+      hashtags_id:
+        example:
+        - 1
+        - 2
+        - 3
+        items:
+          type: integer
+        type: array
+      id:
+        example: 1
+        type: integer
+      user_id:
+        example: 1
+        type: integer
+    type: object
   papi.AddHashtagToPostReq:
     properties:
       hashtag_id:
@@ -250,6 +273,41 @@ info:
   title: Social-network API
   version: "1.0"
 paths:
+  /feed/{id}:
+    get:
+      description: Returns posts by user feed.
+      parameters:
+      - description: User id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/fapi.Post'
+            type: array
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/send.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/send.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/send.Error'
+      summary: Returns posts by user feed.
+      tags:
+      - feed
   /post/hashtag:
     post:
       description: Creates hashtag.

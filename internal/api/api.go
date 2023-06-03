@@ -6,10 +6,11 @@ import (
 	"os"
 
 	"github.com/rs/zerolog/log"
-	"gitlab.com/pet-pr-social-network/relation-service/rpbapi"
 
 	"gitlab.com/pet-pr-social-network/api-gateway/internal/config"
-	ppbapi "gitlab.com/pet-pr-social-network/post-service/ppbapi"
+	"gitlab.com/pet-pr-social-network/feed-service/fpbapi"
+	"gitlab.com/pet-pr-social-network/post-service/ppbapi"
+	"gitlab.com/pet-pr-social-network/relation-service/rpbapi"
 	upbapi "gitlab.com/pet-pr-social-network/user-service/pbapi"
 )
 
@@ -18,13 +19,15 @@ type API struct {
 	userServiceClient     upbapi.UserServiceClient
 	postServiceClient     ppbapi.PostServiceClient
 	relationServiceClient rpbapi.RelationServiceClient
+	feedServiceClient     fpbapi.FeedServiceClient
 }
 
 // New returns new API.
 func New(cfg config.Config,
 	userServiceClient upbapi.UserServiceClient,
 	postServiceClient ppbapi.PostServiceClient,
-	relationServiceClient rpbapi.RelationServiceClient) (newAPI *API) {
+	relationServiceClient rpbapi.RelationServiceClient,
+	feedServiceClient fpbapi.FeedServiceClient) (newAPI *API) {
 	newAPI = &API{
 		server: &http.Server{
 			Addr: cfg.HTTPServHost + ":" + cfg.HTTPServPort,
@@ -32,6 +35,7 @@ func New(cfg config.Config,
 		userServiceClient:     userServiceClient,
 		postServiceClient:     postServiceClient,
 		relationServiceClient: relationServiceClient,
+		feedServiceClient:     feedServiceClient,
 	}
 
 	newAPI.server.Handler = newAPI.newRouter()

@@ -4,7 +4,9 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	httpSwagger "github.com/swaggo/http-swagger/v2"
+
 	_ "gitlab.com/pet-pr-social-network/api-gateway/docs"
+	fapi "gitlab.com/pet-pr-social-network/api-gateway/internal/api/feed-api"
 	papi "gitlab.com/pet-pr-social-network/api-gateway/internal/api/post-api"
 	rapi "gitlab.com/pet-pr-social-network/api-gateway/internal/api/relation-api"
 	uapi "gitlab.com/pet-pr-social-network/api-gateway/internal/api/user-api"
@@ -17,7 +19,7 @@ import (
 //	@license.name	Apache 2.0
 //	@license.url	http://www.apache.org/licenses/LICENSE-2.0.html
 
-//	@BasePath	/
+// @BasePath	/
 func (a *API) newRouter() (r *chi.Mux) {
 	r = chi.NewRouter()
 
@@ -62,6 +64,13 @@ func (a *API) newRouter() (r *chi.Mux) {
 		r.Post("/friend", newRAPI.AddFriend)
 		r.Delete("/friend", newRAPI.RemoveFriend)
 		r.Post("/friend/get_friends_by_user", newRAPI.GetFriendsByUser)
+	})
+
+	r.Route("/feed", func(r chi.Router) {
+
+		newFAPI := fapi.New(a.feedServiceClient)
+
+		r.Get("/{id}", newFAPI.GetFeed)
 	})
 
 	r.Mount("/swagger", httpSwagger.WrapHandler)

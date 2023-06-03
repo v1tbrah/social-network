@@ -6,10 +6,11 @@ import (
 	"net/http"
 
 	"github.com/rs/zerolog/log"
-	"gitlab.com/pet-pr-social-network/api-gateway/internal/send"
-	"gitlab.com/pet-pr-social-network/post-service/ppbapi"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+
+	"gitlab.com/pet-pr-social-network/api-gateway/internal/send"
+	"gitlab.com/pet-pr-social-network/post-service/ppbapi"
 )
 
 type AddHashtagToPostReq struct {

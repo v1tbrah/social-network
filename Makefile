@@ -4,7 +4,7 @@ start:
 stop:
 	docker-compose down
 
-swaggen:
+dockgen:
 	go install github.com/swaggo/swag/cmd/swag@latest
 	swag init -d ./internal/api --parseDependency -g router.go
 	swag fmt

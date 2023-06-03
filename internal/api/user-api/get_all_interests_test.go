@@ -12,10 +12,11 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
-	"gitlab.com/pet-pr-social-network/api-gateway/internal/api/user-api/mocks"
-	"gitlab.com/pet-pr-social-network/user-service/pbapi"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+
+	"gitlab.com/pet-pr-social-network/api-gateway/internal/api/user-api/mocks"
+	"gitlab.com/pet-pr-social-network/user-service/pbapi"
 )
 
 func TestUserAPI_GetAllInterests(t *testing.T) {
