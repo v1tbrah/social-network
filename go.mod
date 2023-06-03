@@ -8,10 +8,11 @@ require (
 	github.com/stretchr/testify v1.8.2
 	github.com/swaggo/http-swagger/v2 v2.0.1
 	github.com/swaggo/swag v1.16.1
-	gitlab.com/pet-pr-social-network/post-service v0.0.0-20230425204955-5d21fe4e9a90
-	gitlab.com/pet-pr-social-network/relation-service v0.0.0-20230429195047-85a5436f607d
+	gitlab.com/pet-pr-social-network/feed-service v0.0.0-20230525202114-6df8b71de99d
+	gitlab.com/pet-pr-social-network/post-service v0.0.0-20230525173626-83ca6380f8cc
+	gitlab.com/pet-pr-social-network/relation-service v0.0.0-20230525201626-d717c859fd9a
 	gitlab.com/pet-pr-social-network/user-service v0.0.0-20230422175049-aab09e3e8134
-	google.golang.org/grpc v1.54.0
+	google.golang.org/grpc v1.55.0
 	google.golang.org/protobuf v1.30.0
 )
 

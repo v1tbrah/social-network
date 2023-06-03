@@ -11,6 +11,7 @@ type Config struct {
 	UserServiceClient     UserServiceClient
 	PostServiceClient     PostServiceClient
 	RelationServiceClient RelationServiceClient
+	FeedServiceClient     FeedServiceClient
 
 	LogLvl zerolog.Level
 }
@@ -23,6 +24,7 @@ func NewDefaultConfig() Config {
 		UserServiceClient:     newDefaultUserServiceClientConfig(),
 		PostServiceClient:     newDefaultPostServiceClientConfig(),
 		RelationServiceClient: newDefaultRelationServiceClientConfig(),
+		FeedServiceClient:     newDefaultFeedServiceClientConfig(),
 
 		LogLvl: defaultLogLvl,
 	}

@@ -21,6 +21,7 @@ func (c *Config) ParseEnv() error {
 	c.UserServiceClient.parseEnv()
 	c.PostServiceClient.parseEnv()
 	c.RelationServiceClient.parseEnv()
+	c.FeedServiceClient.parseEnv()
 
 	envLogLvl := os.Getenv(envNameLogLvl)
 	if envLogLvl != "" {

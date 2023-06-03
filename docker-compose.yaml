@@ -1,8 +1,13 @@
+version: '3.8'
+
 networks:
   default-network:
     driver: bridge
 
-version: '3.8'
+volumes:
+  user-storage: {}
+  post-storage: {}
+  feed-cache: {}
 
 services:
 
@@ -27,6 +32,7 @@ services:
       - user-service
       - post-service
       - relation-service
+      - feed-service
     environment:
       - HTTP_HOST=0.0.0.0
       - HTTP_PORT=80
@@ -37,6 +43,8 @@ services:
       - POST_SERVICE_CLIENT_PORT=5050
       - RELATION_SERVICE_CLIENT_HOST=relation-service
       - RELATION_SERVICE_CLIENT_PORT=4040
+      - FEED_SERVICE_CLIENT_HOST=feed-service
+      - FEED_SERVICE_CLIENT_PORT=3030
     networks:
       - default-network
 
@@ -76,7 +84,7 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     volumes:
-      - ./docker-volumes/storage-data/user-service:/var/lib/postgresql/data
+      - user-storage:/var/lib/postgresql/data
     expose:
       - "5432"
     networks:
@@ -87,6 +95,8 @@ services:
     container_name: post-service
     depends_on:
       post-service-storage:
+        condition: service_healthy
+      kafka:
         condition: service_healthy
     environment:
       - GRPC_HOST=0.0.0.0
@@ -100,6 +110,8 @@ services:
       - POST_TABLE_NAME=post
       - HASHTAG_TABLE_NAME=hashtag
       - HASHTAG_PER_POST_TABLE_NAME=hashtag_per_post
+      - KAFKA_HOST=kafka
+      - KAFKA_PORT=9092
     expose:
       - "5050"
     networks:
@@ -117,7 +129,7 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     volumes:
-      - ./docker-volumes/storage-data/post-service:/var/lib/postgresql/data
+      - post-storage:/var/lib/postgresql/data
     expose:
       - "5432"
     networks:
@@ -129,6 +141,8 @@ services:
     depends_on:
       relation-service-storage:
         condition: service_healthy
+      kafka:
+        condition: service_healthy
     environment:
       - GRPC_HOST=0.0.0.0
       - GRPC_PORT=4040
@@ -138,6 +152,8 @@ services:
       - STORAGE_USER=neo4j
       - STORAGE_PASSWORD=password
       - STORAGE_DB_NAME=neo4j
+      - KAFKA_HOST=kafka
+      - KAFKA_PORT=9092
     expose:
       - "4040"
     networks:
@@ -157,5 +173,73 @@ services:
     expose:
       - "7687"
       - "7474"
+    networks:
+      - default-network
+
+  feed-service:
+    image: v1tbrah/feed-service:v1-release
+    container_name: feed-service
+    depends_on:
+      feed-service-cache:
+        condition: service_healthy
+      relation-service:
+        condition: service_started
+      post-service:
+        condition: service_started
+      kafka:
+        condition: service_healthy
+    build:
+      dockerfile: Dockerfile
+    environment:
+      - GRPC_HOST=0.0.0.0
+      - GRPC_PORT=3030
+      - LOG_LVL=info
+      - CACHE_HOST=feed-service-cache
+      - CACHE_PORT=6379
+      - FEED_DB_IDX=7
+      - KAFKA_HOST=kafka
+      - KAFKA_PORT=9092
+      - RELATION_SERVICE_CLIENT_HOST=relation-service
+      - RELATION_SERVICE_CLIENT_PORT=4040
+      - POST_SERVICE_CLIENT_HOST=post-service
+      - POST_SERVICE_CLIENT_PORT=5050
+    ports:
+      - "3030:3030"
+    networks:
+      - default-network
+
+  feed-service-cache:
+    image: redis:7.0-alpine # Image page: <https://hub.docker.com/_/redis>
+    container_name: feed-service-cache
+    volumes:
+      - feed-cache:/data:rw
+    ports:
+      - "6379:6379/tcp"
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 500ms
+      timeout: 1s
+      retries: 10
+    networks:
+      - default-network
+
+  zookeeper:
+    hostname: zookeeper
+    image: wurstmeister/zookeeper:3.4.6
+    networks:
+      - default-network
+
+  kafka:
+    image: wurstmeister/kafka
+    env_file:
+      - conf/kafka/.env
+    depends_on:
+      - zookeeper
+    healthcheck:
+      test: nc -z localhost 9092 || exit -1
+      start_period: 5s
+      interval: 5s
+      timeout: 10s
+      retries: 10
     networks:
       - default-network
