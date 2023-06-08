@@ -10,7 +10,7 @@ import (
 	"google.golang.org/grpc/status"
 
 	"gitlab.com/pet-pr-social-network/api-gateway/internal/send"
-	"gitlab.com/pet-pr-social-network/user-service/pbapi"
+	"gitlab.com/pet-pr-social-network/user-service/upbapi"
 )
 
 type GetUserReq struct {
@@ -43,7 +43,7 @@ func (a *UserAPI) GetUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	pbGetUserResp, err := a.userServiceClient.GetUser(r.Context(), &pbapi.GetUserRequest{Id: id})
+	pbGetUserResp, err := a.userServiceClient.GetUser(r.Context(), &upbapi.GetUserRequest{Id: id})
 	if err != nil {
 		if status.Code(err) == codes.NotFound {
 			send.Send(w, send.NewErr(err.Error()), http.StatusNotFound)

@@ -17,7 +17,7 @@ import (
 	"google.golang.org/grpc/status"
 
 	"gitlab.com/pet-pr-social-network/api-gateway/internal/api/user-api/mocks"
-	"gitlab.com/pet-pr-social-network/user-service/pbapi"
+	"gitlab.com/pet-pr-social-network/user-service/upbapi"
 )
 
 func TestUserAPI_GetInterest(t *testing.T) {
@@ -48,7 +48,7 @@ func TestUserAPI_GetInterest(t *testing.T) {
 				c := mocks.NewUserServiceClient(t)
 				c.On("GetInterest",
 					mock.MatchedBy(func(ctx context.Context) bool { return true }),
-					&pbapi.GetInterestRequest{Id: int64(1)}).
+					&upbapi.GetInterestRequest{Id: int64(1)}).
 					Return(nil, status.Error(codes.NotFound, "not found")).Once()
 				return c
 			},
@@ -63,7 +63,7 @@ func TestUserAPI_GetInterest(t *testing.T) {
 				c := mocks.NewUserServiceClient(t)
 				c.On("GetInterest",
 					mock.MatchedBy(func(ctx context.Context) bool { return true }),
-					&pbapi.GetInterestRequest{Id: int64(1)}).
+					&upbapi.GetInterestRequest{Id: int64(1)}).
 					Return(nil, status.Error(codes.Internal, "unexpected err")).Once()
 				return c
 			},
@@ -78,8 +78,8 @@ func TestUserAPI_GetInterest(t *testing.T) {
 				c := mocks.NewUserServiceClient(t)
 				c.On("GetInterest",
 					mock.MatchedBy(func(ctx context.Context) bool { return true }),
-					&pbapi.GetInterestRequest{Id: int64(1)}).
-					Return(&pbapi.GetInterestResponse{Interest: &pbapi.Interest{Id: 1, Name: "TestInterest"}}, nil).Once()
+					&upbapi.GetInterestRequest{Id: int64(1)}).
+					Return(&upbapi.GetInterestResponse{Interest: &upbapi.Interest{Id: 1, Name: "TestInterest"}}, nil).Once()
 				return c
 			},
 			expectedResp: GetInterestResp{ID: int64(1), Name: "TestInterest"},

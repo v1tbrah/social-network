@@ -17,7 +17,7 @@ import (
 	"google.golang.org/grpc/status"
 
 	"gitlab.com/pet-pr-social-network/api-gateway/internal/api/user-api/mocks"
-	"gitlab.com/pet-pr-social-network/user-service/pbapi"
+	"gitlab.com/pet-pr-social-network/user-service/upbapi"
 )
 
 func TestUserAPI_GetUser(t *testing.T) {
@@ -48,7 +48,7 @@ func TestUserAPI_GetUser(t *testing.T) {
 				c := mocks.NewUserServiceClient(t)
 				c.On("GetUser",
 					mock.MatchedBy(func(ctx context.Context) bool { return true }),
-					&pbapi.GetUserRequest{Id: int64(1)}).
+					&upbapi.GetUserRequest{Id: int64(1)}).
 					Return(nil, status.Error(codes.NotFound, "not found")).Once()
 				return c
 			},
@@ -63,7 +63,7 @@ func TestUserAPI_GetUser(t *testing.T) {
 				c := mocks.NewUserServiceClient(t)
 				c.On("GetUser",
 					mock.MatchedBy(func(ctx context.Context) bool { return true }),
-					&pbapi.GetUserRequest{Id: int64(1)}).
+					&upbapi.GetUserRequest{Id: int64(1)}).
 					Return(nil, status.Error(codes.Internal, "unexpected err")).Once()
 				return c
 			},
@@ -78,8 +78,8 @@ func TestUserAPI_GetUser(t *testing.T) {
 				c := mocks.NewUserServiceClient(t)
 				c.On("GetUser",
 					mock.MatchedBy(func(ctx context.Context) bool { return true }),
-					&pbapi.GetUserRequest{Id: int64(1)}).
-					Return(&pbapi.GetUserResponse{
+					&upbapi.GetUserRequest{Id: int64(1)}).
+					Return(&upbapi.GetUserResponse{
 						Name: "TestName", Surname: "TestSurname", InterestsID: []int64{1, 2, 3}, CityID: int64(1),
 					}, nil).Once()
 				return c

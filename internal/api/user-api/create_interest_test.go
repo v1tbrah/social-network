@@ -17,7 +17,7 @@ import (
 	"google.golang.org/grpc/status"
 
 	"gitlab.com/pet-pr-social-network/api-gateway/internal/api/user-api/mocks"
-	"gitlab.com/pet-pr-social-network/user-service/pbapi"
+	"gitlab.com/pet-pr-social-network/user-service/upbapi"
 )
 
 func TestUserAPI_CreateInterest(t *testing.T) {
@@ -68,7 +68,7 @@ func TestUserAPI_CreateInterest(t *testing.T) {
 				c := mocks.NewUserServiceClient(t)
 				c.On("CreateInterest",
 					mock.MatchedBy(func(ctx context.Context) bool { return true }),
-					&pbapi.CreateInterestRequest{Name: "TestName"}).
+					&upbapi.CreateInterestRequest{Name: "TestName"}).
 					Return(nil, status.Error(codes.InvalidArgument, "invalid name")).Once()
 				return c
 			},
@@ -83,7 +83,7 @@ func TestUserAPI_CreateInterest(t *testing.T) {
 				c := mocks.NewUserServiceClient(t)
 				c.On("CreateInterest",
 					mock.MatchedBy(func(ctx context.Context) bool { return true }),
-					&pbapi.CreateInterestRequest{Name: "TestName"}).
+					&upbapi.CreateInterestRequest{Name: "TestName"}).
 					Return(nil, status.Error(codes.AlreadyExists, "interest already exists")).Once()
 				return c
 			},
@@ -98,7 +98,7 @@ func TestUserAPI_CreateInterest(t *testing.T) {
 				c := mocks.NewUserServiceClient(t)
 				c.On("CreateInterest",
 					mock.MatchedBy(func(ctx context.Context) bool { return true }),
-					&pbapi.CreateInterestRequest{Name: "TestName"}).
+					&upbapi.CreateInterestRequest{Name: "TestName"}).
 					Return(nil, status.Error(codes.Internal, "unexpected err")).Once()
 				return c
 			},
@@ -113,8 +113,8 @@ func TestUserAPI_CreateInterest(t *testing.T) {
 				c := mocks.NewUserServiceClient(t)
 				c.On("CreateInterest",
 					mock.MatchedBy(func(ctx context.Context) bool { return true }),
-					&pbapi.CreateInterestRequest{Name: "TestName"}).
-					Return(&pbapi.CreateInterestResponse{Id: int64(1)}, nil).Once()
+					&upbapi.CreateInterestRequest{Name: "TestName"}).
+					Return(&upbapi.CreateInterestResponse{Id: int64(1)}, nil).Once()
 				return c
 			},
 			expectedResp: CreateInterestResp{ID: int64(1)},

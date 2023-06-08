@@ -11,7 +11,7 @@ import (
 	"google.golang.org/grpc/status"
 
 	"gitlab.com/pet-pr-social-network/api-gateway/internal/send"
-	"gitlab.com/pet-pr-social-network/user-service/pbapi"
+	"gitlab.com/pet-pr-social-network/user-service/upbapi"
 )
 
 type CreateInterestReq struct {
@@ -49,7 +49,7 @@ func (a *UserAPI) CreateInterest(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	pbCreateInterestResp, err := a.userServiceClient.CreateInterest(r.Context(), &pbapi.CreateInterestRequest{Name: createInterestReq.Name})
+	pbCreateInterestResp, err := a.userServiceClient.CreateInterest(r.Context(), &upbapi.CreateInterestRequest{Name: createInterestReq.Name})
 	if err != nil {
 		if status.Code(err) == codes.InvalidArgument {
 			send.Send(w, send.NewErr(err.Error()), http.StatusBadRequest)

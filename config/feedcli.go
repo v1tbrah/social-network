@@ -12,19 +12,19 @@ const (
 	envNameFeedServiceClientPort = "FEED_SERVICE_CLIENT_PORT"
 )
 
-type FeedServiceClient struct {
+type FeedCli struct {
 	Host string
 	Port string
 }
 
-func newDefaultFeedServiceClientConfig() FeedServiceClient {
-	return FeedServiceClient{
+func newDefaultFeedServiceClientConfig() FeedCli {
+	return FeedCli{
 		Host: defaultFeedServiceClientHost,
 		Port: defaultFeedServiceClientPort,
 	}
 }
 
-func (u *FeedServiceClient) parseEnv() {
+func (u *FeedCli) parseEnv() {
 	envHost := os.Getenv(envNameFeedServiceClientHost)
 	if envHost != "" {
 		u.Host = envHost

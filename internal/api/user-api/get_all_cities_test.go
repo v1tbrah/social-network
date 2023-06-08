@@ -16,7 +16,7 @@ import (
 	"google.golang.org/grpc/status"
 
 	"gitlab.com/pet-pr-social-network/api-gateway/internal/api/user-api/mocks"
-	"gitlab.com/pet-pr-social-network/user-service/pbapi"
+	"gitlab.com/pet-pr-social-network/user-service/upbapi"
 )
 
 func TestUserAPI_GetAllCities(t *testing.T) {
@@ -34,7 +34,7 @@ func TestUserAPI_GetAllCities(t *testing.T) {
 			userServiceClient: func(t *testing.T) *mocks.UserServiceClient {
 				c := mocks.NewUserServiceClient(t)
 				c.On("GetAllCities",
-					mock.MatchedBy(func(ctx context.Context) bool { return true }), &pbapi.Empty{}).
+					mock.MatchedBy(func(ctx context.Context) bool { return true }), &upbapi.Empty{}).
 					Return(nil, status.Error(codes.Internal, "unexpected err")).Once()
 				return c
 			},
@@ -47,8 +47,8 @@ func TestUserAPI_GetAllCities(t *testing.T) {
 			userServiceClient: func(t *testing.T) *mocks.UserServiceClient {
 				c := mocks.NewUserServiceClient(t)
 				c.On("GetAllCities",
-					mock.MatchedBy(func(ctx context.Context) bool { return true }), &pbapi.Empty{}).
-					Return(&pbapi.GetAllCitiesResponse{Cities: []*pbapi.City{{Id: 1, Name: "TestCity"}}}, nil).Once()
+					mock.MatchedBy(func(ctx context.Context) bool { return true }), &upbapi.Empty{}).
+					Return(&upbapi.GetAllCitiesResponse{Cities: []*upbapi.City{{Id: 1, Name: "TestCity"}}}, nil).Once()
 				return c
 			},
 			expectedResp: []GetCityResp{{ID: int64(1), Name: "TestCity"}},

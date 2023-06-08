@@ -17,7 +17,7 @@ import (
 	"google.golang.org/grpc/status"
 
 	"gitlab.com/pet-pr-social-network/api-gateway/internal/api/user-api/mocks"
-	"gitlab.com/pet-pr-social-network/user-service/pbapi"
+	"gitlab.com/pet-pr-social-network/user-service/upbapi"
 )
 
 func TestUserAPI_GetCity(t *testing.T) {
@@ -48,7 +48,7 @@ func TestUserAPI_GetCity(t *testing.T) {
 				c := mocks.NewUserServiceClient(t)
 				c.On("GetCity",
 					mock.MatchedBy(func(ctx context.Context) bool { return true }),
-					&pbapi.GetCityRequest{Id: int64(1)}).
+					&upbapi.GetCityRequest{Id: int64(1)}).
 					Return(nil, status.Error(codes.NotFound, "not found")).Once()
 				return c
 			},
@@ -63,7 +63,7 @@ func TestUserAPI_GetCity(t *testing.T) {
 				c := mocks.NewUserServiceClient(t)
 				c.On("GetCity",
 					mock.MatchedBy(func(ctx context.Context) bool { return true }),
-					&pbapi.GetCityRequest{Id: int64(1)}).
+					&upbapi.GetCityRequest{Id: int64(1)}).
 					Return(nil, status.Error(codes.Internal, "unexpected err")).Once()
 				return c
 			},
@@ -78,8 +78,8 @@ func TestUserAPI_GetCity(t *testing.T) {
 				c := mocks.NewUserServiceClient(t)
 				c.On("GetCity",
 					mock.MatchedBy(func(ctx context.Context) bool { return true }),
-					&pbapi.GetCityRequest{Id: int64(1)}).
-					Return(&pbapi.GetCityResponse{City: &pbapi.City{Id: 1, Name: "TestCity"}}, nil).Once()
+					&upbapi.GetCityRequest{Id: int64(1)}).
+					Return(&upbapi.GetCityResponse{City: &upbapi.City{Id: 1, Name: "TestCity"}}, nil).Once()
 				return c
 			},
 			expectedResp: GetCityResp{ID: int64(1), Name: "TestCity"},

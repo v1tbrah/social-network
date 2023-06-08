@@ -11,7 +11,7 @@ import (
 	"google.golang.org/grpc/status"
 
 	"gitlab.com/pet-pr-social-network/api-gateway/internal/send"
-	"gitlab.com/pet-pr-social-network/user-service/pbapi"
+	"gitlab.com/pet-pr-social-network/user-service/upbapi"
 )
 
 type CreateCityReq struct {
@@ -49,7 +49,7 @@ func (a *UserAPI) CreateCity(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	pbCreateCityResp, err := a.userServiceClient.CreateCity(r.Context(), &pbapi.CreateCityRequest{Name: createCityReq.Name})
+	pbCreateCityResp, err := a.userServiceClient.CreateCity(r.Context(), &upbapi.CreateCityRequest{Name: createCityReq.Name})
 	if err != nil {
 		if status.Code(err) == codes.InvalidArgument {
 			send.Send(w, send.NewErr(err.Error()), http.StatusBadRequest)

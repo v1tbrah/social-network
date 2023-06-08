@@ -10,7 +10,7 @@ import (
 	"google.golang.org/grpc/status"
 
 	"gitlab.com/pet-pr-social-network/api-gateway/internal/send"
-	"gitlab.com/pet-pr-social-network/user-service/pbapi"
+	"gitlab.com/pet-pr-social-network/user-service/upbapi"
 )
 
 type GetInterestReq struct {
@@ -41,7 +41,7 @@ func (a *UserAPI) GetInterest(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	pbGetInterestResp, err := a.userServiceClient.GetInterest(r.Context(), &pbapi.GetInterestRequest{Id: id})
+	pbGetInterestResp, err := a.userServiceClient.GetInterest(r.Context(), &upbapi.GetInterestRequest{Id: id})
 	if err != nil {
 		if status.Code(err) == codes.NotFound {
 			send.Send(w, send.NewErr(err.Error()), http.StatusNotFound)
