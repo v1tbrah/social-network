@@ -4,6 +4,7 @@ import (
 	"context"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
 	"time"
 
@@ -67,8 +68,9 @@ func main() {
 	}()
 
 	select {
-	case <-shutdownSig:
+	case shutdownSigValue := <-shutdownSig:
 		close(shutdownSig)
+		log.Info().Msgf("Shutdown signal received: %s", strings.ToUpper(shutdownSigValue.String()))
 	case errServing := <-errServingCh:
 		if errServing != nil {
 			log.Error().Err(errServing).Msg("newAPI.StartServing")

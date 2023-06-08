@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/pkg/errors"
 	"github.com/rs/zerolog/log"
 
 	"gitlab.com/pet-pr-social-network/api-gateway/config"
@@ -51,7 +52,7 @@ func (a *API) StartServing(shutdown <-chan os.Signal) (err error) {
 	go func() {
 		log.Info().Str("Addr", a.server.Addr).Msg("Starting HTTP server")
 		if err = a.server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			log.Fatal().Err(err).Msg("HTTP server ListenAndServe")
+			err = errors.Wrapf(err, "server.ListenAndServe, addr %s", a.server.Addr)
 		}
 		ended <- struct{}{}
 	}()
