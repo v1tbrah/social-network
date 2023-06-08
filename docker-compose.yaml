@@ -5,9 +5,9 @@ networks:
     driver: bridge
 
 volumes:
-  user-storage: {}
-  post-storage: {}
-  feed-cache: {}
+  user-storage-data: {}
+  post-storage-data: {}
+  feed-cache-data: {}
 
 services:
 
@@ -52,7 +52,9 @@ services:
     image: v1tbrah/user-service:v1-release
     container_name: user-service
     depends_on:
-      user-service-storage:
+      user-service-storage-migrate:
+        condition: service_completed_successfully
+      kafka:
         condition: service_healthy
     environment:
       - GRPC_HOST=0.0.0.0
@@ -61,19 +63,13 @@ services:
       - STORAGE_HOST=user-service-storage
       - STORAGE_PORT=5432
       - STORAGE_USER=postgres
-      - STORAGE_PASSWORD=postgres
-      - USER_DB_NAME=postgres
-      - USER_TABLE_NAME=users
-      - CITY_TABLE_NAME=city
-      - INTEREST_TABLE_NAME=interest
-      - USER_PER_INTEREST_TABLE_NAME=user_per_interest
-    expose:
-      - "6060"
+      - STORAGE_PASSWORD=password
+      - USER_DB_NAME=users
     networks:
       - default-network
 
   user-service-storage:
-    image: postgres:latest
+    image: postgres:alpine
     container_name: user-service-storage
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready" ]
@@ -82,11 +78,22 @@ services:
       retries: 5
     environment:
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_PASSWORD=password
     volumes:
-      - user-storage:/var/lib/postgresql/data
-    expose:
-      - "5432"
+      - ./dependencies/user-service/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - user-storage-data:/var/lib/postgresql/data
+    networks:
+      - default-network
+
+  user-service-storage-migrate:
+    image: migrate/migrate:v4.15.2 # Image page: <https://hub.docker.com/r/migrate/migrate>
+    container_name: user-service-storage-migrate
+    volumes: [ .:/src:ro ]
+    working_dir: /src
+    entrypoint: migrate -database "postgres://postgres:password@user-service-storage:5432/users?sslmode=disable" -source file://./dependencies/user-service/migrations -verbose up
+    depends_on:
+      user-service-storage:
+        condition: service_healthy
     networks:
       - default-network
 
@@ -94,8 +101,8 @@ services:
     image: v1tbrah/post-service:v1-release
     container_name: post-service
     depends_on:
-      post-service-storage:
-        condition: service_healthy
+      post-service-storage-migrate:
+        condition: service_completed_successfully
       kafka:
         condition: service_healthy
     environment:
@@ -105,20 +112,15 @@ services:
       - STORAGE_HOST=post-service-storage
       - STORAGE_PORT=5432
       - STORAGE_USER=postgres
-      - STORAGE_PASSWORD=postgres
-      - POST_DB_NAME=postgres
-      - POST_TABLE_NAME=post
-      - HASHTAG_TABLE_NAME=hashtag
-      - HASHTAG_PER_POST_TABLE_NAME=hashtag_per_post
+      - STORAGE_PASSWORD=password
+      - POST_DB_NAME=posts
       - KAFKA_HOST=kafka
       - KAFKA_PORT=9092
-    expose:
-      - "5050"
     networks:
       - default-network
 
   post-service-storage:
-    image: postgres:latest
+    image: postgres:alpine
     container_name: post-service-storage
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready" ]
@@ -127,11 +129,22 @@ services:
       retries: 5
     environment:
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_PASSWORD=password
     volumes:
-      - post-storage:/var/lib/postgresql/data
-    expose:
-      - "5432"
+      - ./dependencies/post-service/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - post-storage-data:/var/lib/postgresql/data
+    networks:
+      - default-network
+
+  post-service-storage-migrate:
+    image: migrate/migrate:v4.15.2 # Image page: <https://hub.docker.com/r/migrate/migrate>
+    container_name: post-service-storage-migrate
+    volumes: [ .:/src:ro ]
+    working_dir: /src
+    entrypoint: migrate -database "postgres://postgres:password@post-service-storage:5432/posts?sslmode=disable" -source file://./dependencies/post-service/migrations -verbose up
+    depends_on:
+      post-service-storage:
+        condition: service_healthy
     networks:
       - default-network
 
@@ -154,8 +167,6 @@ services:
       - STORAGE_DB_NAME=neo4j
       - KAFKA_HOST=kafka
       - KAFKA_PORT=9092
-    expose:
-      - "4040"
     networks:
       - default-network
 
@@ -170,9 +181,6 @@ services:
       start_period: 3s
     environment:
       - NEO4J_AUTH=neo4j/password
-    expose:
-      - "7687"
-      - "7474"
     networks:
       - default-network
 
@@ -188,8 +196,6 @@ services:
         condition: service_started
       kafka:
         condition: service_healthy
-    build:
-      dockerfile: Dockerfile
     environment:
       - GRPC_HOST=0.0.0.0
       - GRPC_PORT=3030
@@ -203,8 +209,6 @@ services:
       - RELATION_SERVICE_CLIENT_PORT=4040
       - POST_SERVICE_CLIENT_HOST=post-service
       - POST_SERVICE_CLIENT_PORT=5050
-    ports:
-      - "3030:3030"
     networks:
       - default-network
 
@@ -212,9 +216,7 @@ services:
     image: redis:7.0-alpine # Image page: <https://hub.docker.com/_/redis>
     container_name: feed-service-cache
     volumes:
-      - feed-cache:/data:rw
-    ports:
-      - "6379:6379/tcp"
+      - feed-cache-data:/data:rw
     healthcheck:
       test: [ "CMD", "redis-cli", "ping" ]
       interval: 500ms

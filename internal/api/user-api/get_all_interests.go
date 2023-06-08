@@ -6,7 +6,7 @@ import (
 	"github.com/rs/zerolog/log"
 
 	"gitlab.com/pet-pr-social-network/api-gateway/internal/send"
-	"gitlab.com/pet-pr-social-network/user-service/pbapi"
+	"gitlab.com/pet-pr-social-network/user-service/upbapi"
 )
 
 // GetAllInterests returns all interests.
@@ -19,7 +19,7 @@ import (
 //	@Failure		500	{object}	send.Error
 //	@Router			/user/interest [get]
 func (a *UserAPI) GetAllInterests(w http.ResponseWriter, r *http.Request) {
-	pbGetAllInterestsResp, err := a.userServiceClient.GetAllInterests(r.Context(), &pbapi.Empty{})
+	pbGetAllInterestsResp, err := a.userServiceClient.GetAllInterests(r.Context(), &upbapi.Empty{})
 	if err != nil {
 		log.Error().Err(err).Msg("userServiceClient.GetAllInterests")
 		send.Send(w, send.NewErr(err.Error()), http.StatusInternalServerError)

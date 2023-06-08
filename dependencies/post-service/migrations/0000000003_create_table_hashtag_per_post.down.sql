@@ -1,0 +1,1 @@
+DROP TABLE table_hashtag_per_post;

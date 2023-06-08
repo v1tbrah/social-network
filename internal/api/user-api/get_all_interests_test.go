@@ -16,7 +16,7 @@ import (
 	"google.golang.org/grpc/status"
 
 	"gitlab.com/pet-pr-social-network/api-gateway/internal/api/user-api/mocks"
-	"gitlab.com/pet-pr-social-network/user-service/pbapi"
+	"gitlab.com/pet-pr-social-network/user-service/upbapi"
 )
 
 func TestUserAPI_GetAllInterests(t *testing.T) {
@@ -34,7 +34,7 @@ func TestUserAPI_GetAllInterests(t *testing.T) {
 			userServiceClient: func(t *testing.T) *mocks.UserServiceClient {
 				c := mocks.NewUserServiceClient(t)
 				c.On("GetAllInterests",
-					mock.MatchedBy(func(ctx context.Context) bool { return true }), &pbapi.Empty{}).
+					mock.MatchedBy(func(ctx context.Context) bool { return true }), &upbapi.Empty{}).
 					Return(nil, status.Error(codes.Internal, "unexpected err")).Once()
 				return c
 			},
@@ -47,8 +47,8 @@ func TestUserAPI_GetAllInterests(t *testing.T) {
 			userServiceClient: func(t *testing.T) *mocks.UserServiceClient {
 				c := mocks.NewUserServiceClient(t)
 				c.On("GetAllInterests",
-					mock.MatchedBy(func(ctx context.Context) bool { return true }), &pbapi.Empty{}).
-					Return(&pbapi.GetAllInterestsResponse{Interests: []*pbapi.Interest{{Id: 1, Name: "TestInterest"}}}, nil).Once()
+					mock.MatchedBy(func(ctx context.Context) bool { return true }), &upbapi.Empty{}).
+					Return(&upbapi.GetAllInterestsResponse{Interests: []*upbapi.Interest{{Id: 1, Name: "TestInterest"}}}, nil).Once()
 				return c
 			},
 			expectedResp: []GetInterestResp{{ID: int64(1), Name: "TestInterest"}},

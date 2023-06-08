@@ -17,7 +17,7 @@ import (
 	"google.golang.org/grpc/status"
 
 	"gitlab.com/pet-pr-social-network/api-gateway/internal/api/user-api/mocks"
-	"gitlab.com/pet-pr-social-network/user-service/pbapi"
+	"gitlab.com/pet-pr-social-network/user-service/upbapi"
 )
 
 func TestUserAPI_CreateCity(t *testing.T) {
@@ -68,7 +68,7 @@ func TestUserAPI_CreateCity(t *testing.T) {
 				c := mocks.NewUserServiceClient(t)
 				c.On("CreateCity",
 					mock.MatchedBy(func(ctx context.Context) bool { return true }),
-					&pbapi.CreateCityRequest{Name: "TestName"}).
+					&upbapi.CreateCityRequest{Name: "TestName"}).
 					Return(nil, status.Error(codes.InvalidArgument, "invalid name")).Once()
 				return c
 			},
@@ -83,7 +83,7 @@ func TestUserAPI_CreateCity(t *testing.T) {
 				c := mocks.NewUserServiceClient(t)
 				c.On("CreateCity",
 					mock.MatchedBy(func(ctx context.Context) bool { return true }),
-					&pbapi.CreateCityRequest{Name: "TestName"}).
+					&upbapi.CreateCityRequest{Name: "TestName"}).
 					Return(nil, status.Error(codes.AlreadyExists, "city already exists")).Once()
 				return c
 			},
@@ -98,7 +98,7 @@ func TestUserAPI_CreateCity(t *testing.T) {
 				c := mocks.NewUserServiceClient(t)
 				c.On("CreateCity",
 					mock.MatchedBy(func(ctx context.Context) bool { return true }),
-					&pbapi.CreateCityRequest{Name: "TestName"}).
+					&upbapi.CreateCityRequest{Name: "TestName"}).
 					Return(nil, status.Error(codes.Internal, "unexpected err")).Once()
 				return c
 			},
@@ -113,8 +113,8 @@ func TestUserAPI_CreateCity(t *testing.T) {
 				c := mocks.NewUserServiceClient(t)
 				c.On("CreateCity",
 					mock.MatchedBy(func(ctx context.Context) bool { return true }),
-					&pbapi.CreateCityRequest{Name: "TestName"}).
-					Return(&pbapi.CreateCityResponse{Id: int64(1)}, nil).Once()
+					&upbapi.CreateCityRequest{Name: "TestName"}).
+					Return(&upbapi.CreateCityResponse{Id: int64(1)}, nil).Once()
 				return c
 			},
 			expectedResp: CreateCityResp{ID: int64(1)},

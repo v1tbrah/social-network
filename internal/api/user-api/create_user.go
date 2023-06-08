@@ -11,7 +11,7 @@ import (
 	"google.golang.org/grpc/status"
 
 	"gitlab.com/pet-pr-social-network/api-gateway/internal/send"
-	"gitlab.com/pet-pr-social-network/user-service/pbapi"
+	"gitlab.com/pet-pr-social-network/user-service/upbapi"
 )
 
 type CreateUserReq struct {
@@ -76,8 +76,8 @@ func (a *UserAPI) CreateUser(w http.ResponseWriter, r *http.Request) {
 	send.Send(w, CreateUserResp{ID: pbCreateUserResp.GetId()}, http.StatusOK)
 }
 
-func createUserReqToPBCreateUserReq(createUserReq CreateUserReq) *pbapi.CreateUserRequest {
-	return &pbapi.CreateUserRequest{
+func createUserReqToPBCreateUserReq(createUserReq CreateUserReq) *upbapi.CreateUserRequest {
+	return &upbapi.CreateUserRequest{
 		Name:        createUserReq.Name,
 		Surname:     createUserReq.Surname,
 		InterestsID: createUserReq.InterestsID,

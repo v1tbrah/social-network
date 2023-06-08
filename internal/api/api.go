@@ -2,16 +2,17 @@ package api
 
 import (
 	"context"
+	"net"
 	"net/http"
 	"os"
 
 	"github.com/rs/zerolog/log"
 
-	"gitlab.com/pet-pr-social-network/api-gateway/internal/config"
+	"gitlab.com/pet-pr-social-network/api-gateway/config"
 	"gitlab.com/pet-pr-social-network/feed-service/fpbapi"
 	"gitlab.com/pet-pr-social-network/post-service/ppbapi"
 	"gitlab.com/pet-pr-social-network/relation-service/rpbapi"
-	upbapi "gitlab.com/pet-pr-social-network/user-service/pbapi"
+	"gitlab.com/pet-pr-social-network/user-service/upbapi"
 )
 
 type API struct {
@@ -30,7 +31,7 @@ func New(cfg config.Config,
 	feedServiceClient fpbapi.FeedServiceClient) (newAPI *API) {
 	newAPI = &API{
 		server: &http.Server{
-			Addr: cfg.HTTPServHost + ":" + cfg.HTTPServPort,
+			Addr: net.JoinHostPort(cfg.HTTPHost, cfg.HTTPPort),
 		},
 		userServiceClient:     userServiceClient,
 		postServiceClient:     postServiceClient,

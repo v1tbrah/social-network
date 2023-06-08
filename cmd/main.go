@@ -10,16 +10,16 @@ import (
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 
+	"gitlab.com/pet-pr-social-network/api-gateway/config"
 	"gitlab.com/pet-pr-social-network/api-gateway/internal/api"
-	"gitlab.com/pet-pr-social-network/api-gateway/internal/config"
-	fsclient "gitlab.com/pet-pr-social-network/api-gateway/internal/feed-service-client"
-	psclient "gitlab.com/pet-pr-social-network/api-gateway/internal/post-service-client"
-	rsclient "gitlab.com/pet-pr-social-network/api-gateway/internal/relation-service-client"
-	usclient "gitlab.com/pet-pr-social-network/api-gateway/internal/user-service-client"
+	"gitlab.com/pet-pr-social-network/api-gateway/internal/feedcli"
+	"gitlab.com/pet-pr-social-network/api-gateway/internal/postcli"
+	"gitlab.com/pet-pr-social-network/api-gateway/internal/relationcli"
+	"gitlab.com/pet-pr-social-network/api-gateway/internal/usercli"
 	"gitlab.com/pet-pr-social-network/feed-service/fpbapi"
 	"gitlab.com/pet-pr-social-network/post-service/ppbapi"
 	"gitlab.com/pet-pr-social-network/relation-service/rpbapi"
-	upbapi "gitlab.com/pet-pr-social-network/user-service/pbapi"
+	"gitlab.com/pet-pr-social-network/user-service/upbapi"
 )
 
 func main() {
@@ -31,25 +31,25 @@ func main() {
 	}
 	zerolog.SetGlobalLevel(newConfig.LogLvl)
 
-	userServiceConn, err := usclient.NewConn(newConfig.UserServiceClient)
+	userServiceConn, err := usercli.NewConn(newConfig.UserCli)
 	if err != nil {
 		log.Fatal().Err(err).Msg("usclient.NewConn")
 	}
 	newUserServiceClient := upbapi.NewUserServiceClient(userServiceConn)
 
-	postServiceConn, err := psclient.NewConn(newConfig.PostServiceClient)
+	postServiceConn, err := postcli.NewConn(newConfig.PostCli)
 	if err != nil {
 		log.Fatal().Err(err).Msg("usclient.NewConn")
 	}
 	newPostServiceClient := ppbapi.NewPostServiceClient(postServiceConn)
 
-	relationServiceConn, err := rsclient.NewConn(newConfig.RelationServiceClient)
+	relationServiceConn, err := relationcli.NewConn(newConfig.RelationCli)
 	if err != nil {
 		log.Fatal().Err(err).Msg("rsclient.NewConn")
 	}
 	newRelationServiceClient := rpbapi.NewRelationServiceClient(relationServiceConn)
 
-	feedServiceConn, err := fsclient.NewConn(newConfig.FeedServiceClient)
+	feedServiceConn, err := feedcli.NewConn(newConfig.FeedCli)
 	if err != nil {
 		log.Fatal().Err(err).Msg("fsclient.NewConn")
 	}

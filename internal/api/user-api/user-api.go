@@ -1,12 +1,12 @@
 package uapi
 
-import "gitlab.com/pet-pr-social-network/user-service/pbapi"
+import "gitlab.com/pet-pr-social-network/user-service/upbapi"
 
 type UserAPI struct {
-	userServiceClient pbapi.UserServiceClient
+	userServiceClient upbapi.UserServiceClient
 }
 
-func New(userServiceClient pbapi.UserServiceClient) *UserAPI {
+func New(userServiceClient upbapi.UserServiceClient) *UserAPI {
 	return &UserAPI{
 		userServiceClient: userServiceClient,
 	}

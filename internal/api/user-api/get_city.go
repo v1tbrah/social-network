@@ -10,7 +10,7 @@ import (
 	"google.golang.org/grpc/status"
 
 	"gitlab.com/pet-pr-social-network/api-gateway/internal/send"
-	"gitlab.com/pet-pr-social-network/user-service/pbapi"
+	"gitlab.com/pet-pr-social-network/user-service/upbapi"
 )
 
 type GetCityReq struct {
@@ -41,7 +41,7 @@ func (a *UserAPI) GetCity(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	pbGetCityResp, err := a.userServiceClient.GetCity(r.Context(), &pbapi.GetCityRequest{Id: id})
+	pbGetCityResp, err := a.userServiceClient.GetCity(r.Context(), &upbapi.GetCityRequest{Id: id})
 	if err != nil {
 		if status.Code(err) == codes.NotFound {
 			send.Send(w, send.NewErr(err.Error()), http.StatusNotFound)
