@@ -5,8 +5,9 @@ import (
 
 	"github.com/rs/zerolog/log"
 
-	"gitlab.com/pet-pr-social-network/api-gateway/internal/send"
-	"gitlab.com/pet-pr-social-network/user-service/upbapi"
+	"github.com/v1tbrah/api-gateway/internal/send"
+
+	"github.com/v1tbrah/user-service/upbapi"
 )
 
 // GetAllInterests returns all interests.

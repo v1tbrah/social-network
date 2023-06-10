@@ -9,8 +9,9 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"gitlab.com/pet-pr-social-network/api-gateway/internal/send"
-	"gitlab.com/pet-pr-social-network/relation-service/rpbapi"
+	"github.com/v1tbrah/api-gateway/internal/send"
+
+	"github.com/v1tbrah/relation-service/rpbapi"
 )
 
 type GetFriendsByUserReq struct {

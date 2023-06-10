@@ -9,8 +9,9 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"gitlab.com/pet-pr-social-network/api-gateway/internal/send"
-	"gitlab.com/pet-pr-social-network/user-service/upbapi"
+	"github.com/v1tbrah/api-gateway/internal/send"
+
+	"github.com/v1tbrah/user-service/upbapi"
 )
 
 type GetCityReq struct {

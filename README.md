@@ -20,7 +20,7 @@ http://localhost/swagger/index.html
 
 ## Repositories of all services
 * Gitlab group: https://gitlab.com/pet-pr-social-network
-  * api-gateway: https://gitlab.com/pet-pr-social-network/api-gateway
-  * user-service: https://gitlab.com/pet-pr-social-network/user-service
-  * post-service: https://gitlab.com/pet-pr-social-network/post-service
-  * relation-service: https://gitlab.com/pet-pr-social-network/relation-service
+  * api-gateway: https://github.com/v1tbrah/api-gateway
+  * user-service: https://github.com/v1tbrah/user-service
+  * post-service: https://github.com/v1tbrah/post-service
+  * relation-service: https://github.com/v1tbrah/relation-service

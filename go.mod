@@ -1,4 +1,4 @@
-module gitlab.com/pet-pr-social-network/api-gateway
+module github.com/v1tbrah/api-gateway
 
 go 1.20
 
@@ -9,10 +9,10 @@ require (
 	github.com/stretchr/testify v1.8.4
 	github.com/swaggo/http-swagger/v2 v2.0.1
 	github.com/swaggo/swag v1.16.1
-	gitlab.com/pet-pr-social-network/feed-service v0.0.0-20230606171605-cbe0a59020c4
-	gitlab.com/pet-pr-social-network/post-service v0.0.0-20230605170712-906e3ae055a8
-	gitlab.com/pet-pr-social-network/relation-service v0.0.0-20230605154209-a4ba2324e44e
-	gitlab.com/pet-pr-social-network/user-service v0.0.0-20230605151201-94a39bcf8372
+	github.com/v1tbrah/feed-service v0.0.0-20230610173000-247c972a8b3a
+	github.com/v1tbrah/post-service v0.0.0-20230610172139-6e6e385d3079
+	github.com/v1tbrah/relation-service v0.0.0-20230610171002-639ff106ff94
+	github.com/v1tbrah/user-service v0.0.0-20230610171519-29c3aa6305af
 	google.golang.org/grpc v1.55.0
 	google.golang.org/protobuf v1.30.0
 )
