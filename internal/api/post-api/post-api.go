@@ -1,6 +1,6 @@
 package papi
 
-import "gitlab.com/pet-pr-social-network/post-service/ppbapi"
+import "github.com/v1tbrah/post-service/ppbapi"
 
 type PostAPI struct {
 	postServiceClient ppbapi.PostServiceClient

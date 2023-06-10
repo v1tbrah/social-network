@@ -1,7 +1,7 @@
 package rapi
 
 import (
-	"gitlab.com/pet-pr-social-network/relation-service/rpbapi"
+	"github.com/v1tbrah/relation-service/rpbapi"
 )
 
 type RelationAPI struct {

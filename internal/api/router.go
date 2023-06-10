@@ -5,11 +5,11 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 	httpSwagger "github.com/swaggo/http-swagger/v2"
 
-	_ "gitlab.com/pet-pr-social-network/api-gateway/docs"
-	fapi "gitlab.com/pet-pr-social-network/api-gateway/internal/api/feed-api"
-	papi "gitlab.com/pet-pr-social-network/api-gateway/internal/api/post-api"
-	rapi "gitlab.com/pet-pr-social-network/api-gateway/internal/api/relation-api"
-	uapi "gitlab.com/pet-pr-social-network/api-gateway/internal/api/user-api"
+	_ "github.com/v1tbrah/api-gateway/docs"
+	fapi "github.com/v1tbrah/api-gateway/internal/api/feed-api"
+	papi "github.com/v1tbrah/api-gateway/internal/api/post-api"
+	rapi "github.com/v1tbrah/api-gateway/internal/api/relation-api"
+	uapi "github.com/v1tbrah/api-gateway/internal/api/user-api"
 )
 
 //	@title			Social-network API
@@ -19,7 +19,7 @@ import (
 //	@license.name	Apache 2.0
 //	@license.url	http://www.apache.org/licenses/LICENSE-2.0.html
 
-// @BasePath	/
+//	@BasePath	/
 func (a *API) newRouter() (r *chi.Mux) {
 	r = chi.NewRouter()
 

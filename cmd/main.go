@@ -11,16 +11,17 @@ import (
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 
-	"gitlab.com/pet-pr-social-network/api-gateway/config"
-	"gitlab.com/pet-pr-social-network/api-gateway/internal/api"
-	"gitlab.com/pet-pr-social-network/api-gateway/internal/feedcli"
-	"gitlab.com/pet-pr-social-network/api-gateway/internal/postcli"
-	"gitlab.com/pet-pr-social-network/api-gateway/internal/relationcli"
-	"gitlab.com/pet-pr-social-network/api-gateway/internal/usercli"
-	"gitlab.com/pet-pr-social-network/feed-service/fpbapi"
-	"gitlab.com/pet-pr-social-network/post-service/ppbapi"
-	"gitlab.com/pet-pr-social-network/relation-service/rpbapi"
-	"gitlab.com/pet-pr-social-network/user-service/upbapi"
+	"github.com/v1tbrah/api-gateway/config"
+	"github.com/v1tbrah/api-gateway/internal/api"
+	"github.com/v1tbrah/api-gateway/internal/feedcli"
+	"github.com/v1tbrah/api-gateway/internal/postcli"
+	"github.com/v1tbrah/api-gateway/internal/relationcli"
+	"github.com/v1tbrah/api-gateway/internal/usercli"
+
+	"github.com/v1tbrah/feed-service/fpbapi"
+	"github.com/v1tbrah/post-service/ppbapi"
+	"github.com/v1tbrah/relation-service/rpbapi"
+	"github.com/v1tbrah/user-service/upbapi"
 )
 
 func main() {

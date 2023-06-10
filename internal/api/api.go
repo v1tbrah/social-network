@@ -9,11 +9,15 @@ import (
 	"github.com/pkg/errors"
 	"github.com/rs/zerolog/log"
 
-	"gitlab.com/pet-pr-social-network/api-gateway/config"
-	"gitlab.com/pet-pr-social-network/feed-service/fpbapi"
-	"gitlab.com/pet-pr-social-network/post-service/ppbapi"
-	"gitlab.com/pet-pr-social-network/relation-service/rpbapi"
-	"gitlab.com/pet-pr-social-network/user-service/upbapi"
+	"github.com/v1tbrah/api-gateway/config"
+
+	"github.com/v1tbrah/feed-service/fpbapi"
+
+	"github.com/v1tbrah/post-service/ppbapi"
+
+	"github.com/v1tbrah/relation-service/rpbapi"
+
+	"github.com/v1tbrah/user-service/upbapi"
 )
 
 type API struct {

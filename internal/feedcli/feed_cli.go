@@ -7,7 +7,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 
-	"gitlab.com/pet-pr-social-network/api-gateway/config"
+	"github.com/v1tbrah/api-gateway/config"
 )
 
 func NewConn(cfg config.FeedCli) (*grpc.ClientConn, error) {
