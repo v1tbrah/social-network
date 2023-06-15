@@ -8,6 +8,7 @@ import (
 
 	"github.com/pkg/errors"
 	"github.com/rs/zerolog/log"
+	"github.com/v1tbrah/media-service/mpbapi"
 
 	"github.com/v1tbrah/api-gateway/config"
 
@@ -26,6 +27,7 @@ type API struct {
 	postServiceClient     ppbapi.PostServiceClient
 	relationServiceClient rpbapi.RelationServiceClient
 	feedServiceClient     fpbapi.FeedServiceClient
+	mediaServiceClient    mpbapi.MediaServiceClient
 }
 
 // New returns new API.
@@ -33,7 +35,8 @@ func New(cfg config.Config,
 	userServiceClient upbapi.UserServiceClient,
 	postServiceClient ppbapi.PostServiceClient,
 	relationServiceClient rpbapi.RelationServiceClient,
-	feedServiceClient fpbapi.FeedServiceClient) (newAPI *API) {
+	feedServiceClient fpbapi.FeedServiceClient,
+	mediaServiceClient mpbapi.MediaServiceClient) (newAPI *API) {
 	newAPI = &API{
 		server: &http.Server{
 			Addr: net.JoinHostPort(cfg.HTTPHost, cfg.HTTPPort),
@@ -42,6 +45,7 @@ func New(cfg config.Config,
 		postServiceClient:     postServiceClient,
 		relationServiceClient: relationServiceClient,
 		feedServiceClient:     feedServiceClient,
+		mediaServiceClient:    mediaServiceClient,
 	}
 
 	newAPI.server.Handler = newAPI.newRouter()

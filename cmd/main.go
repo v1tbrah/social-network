@@ -14,11 +14,13 @@ import (
 	"github.com/v1tbrah/api-gateway/config"
 	"github.com/v1tbrah/api-gateway/internal/api"
 	"github.com/v1tbrah/api-gateway/internal/feedcli"
+	"github.com/v1tbrah/api-gateway/internal/mediacli"
 	"github.com/v1tbrah/api-gateway/internal/postcli"
 	"github.com/v1tbrah/api-gateway/internal/relationcli"
 	"github.com/v1tbrah/api-gateway/internal/usercli"
 
 	"github.com/v1tbrah/feed-service/fpbapi"
+	"github.com/v1tbrah/media-service/mpbapi"
 	"github.com/v1tbrah/post-service/ppbapi"
 	"github.com/v1tbrah/relation-service/rpbapi"
 	"github.com/v1tbrah/user-service/upbapi"
@@ -57,7 +59,19 @@ func main() {
 	}
 	newFeedServiceClient := fpbapi.NewFeedServiceClient(feedServiceConn)
 
-	newAPI := api.New(newConfig, newUserServiceClient, newPostServiceClient, newRelationServiceClient, newFeedServiceClient)
+	mediaServiceConn, err := mediacli.NewConn(newConfig.MediaCli)
+	if err != nil {
+		log.Fatal().Err(err).Msg("msclient.NewConn")
+	}
+	newMediaServiceClient := mpbapi.NewMediaServiceClient(mediaServiceConn)
+
+	newAPI := api.New(newConfig,
+		newUserServiceClient,
+		newPostServiceClient,
+		newRelationServiceClient,
+		newFeedServiceClient,
+		newMediaServiceClient,
+	)
 
 	shutdownSig := make(chan os.Signal, 1)
 	signal.Notify(shutdownSig, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
@@ -96,5 +110,8 @@ func main() {
 	}
 	if err = feedServiceConn.Close(); err != nil {
 		log.Error().Err(err).Msg("feedServiceConn.Close")
+	}
+	if err = mediaServiceConn.Close(); err != nil {
+		log.Error().Err(err).Msg("mediaServiceConn.Close")
 	}
 }

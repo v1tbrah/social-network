@@ -12,6 +12,7 @@ type Config struct {
 	PostCli     PostCli
 	RelationCli RelationCli
 	FeedCli     FeedCli
+	MediaCli    MediaCli
 
 	LogLvl zerolog.Level
 }
@@ -25,6 +26,7 @@ func NewDefaultConfig() Config {
 		PostCli:     newDefaultPostServiceClientConfig(),
 		RelationCli: newDefaultRelationServiceClientConfig(),
 		FeedCli:     newDefaultFeedServiceClientConfig(),
+		MediaCli:    newDefaultMediaServiceClientConfig(),
 
 		LogLvl: defaultLogLvl,
 	}
