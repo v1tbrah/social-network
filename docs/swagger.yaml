@@ -23,6 +23,11 @@ definitions:
         example: 1
         type: integer
     type: object
+  mapi.SavePostResponse:
+    properties:
+      guid:
+        type: string
+    type: object
   papi.AddHashtagToPostReq:
     properties:
       hashtag_id:
@@ -308,6 +313,66 @@ paths:
       summary: Returns posts by user feed.
       tags:
       - feed
+  /media/post:
+    post:
+      description: Saves post media content and returns guid.
+      parameters:
+      - description: Body with file
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - multipart/form-data
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mapi.SavePostResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/send.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/send.Error'
+      summary: Saves post media content.
+      tags:
+      - media
+  /media/post/{guid}:
+    get:
+      description: Returns post by guid.
+      parameters:
+      - description: Post guid
+        in: path
+        name: guid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              type: integer
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/send.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/send.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/send.Error'
+      summary: Returns post by guid.
+      tags:
+      - media
   /post/hashtag:
     post:
       description: Creates hashtag.

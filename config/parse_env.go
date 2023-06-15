@@ -22,6 +22,7 @@ func (c *Config) ParseEnv() error {
 	c.PostCli.parseEnv()
 	c.RelationCli.parseEnv()
 	c.FeedCli.parseEnv()
+	c.MediaCli.parseEnv()
 
 	envLogLvl := os.Getenv(envNameLogLvl)
 	if envLogLvl != "" {

@@ -73,6 +73,97 @@ const docTemplate = `{
                 }
             }
         },
+        "/media/post": {
+            "post": {
+                "description": "Saves post media content and returns guid.",
+                "produces": [
+                    "multipart/form-data"
+                ],
+                "tags": [
+                    "media"
+                ],
+                "summary": "Saves post media content.",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "Body with file",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mapi.SavePostResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/send.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/send.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/media/post/{guid}": {
+            "get": {
+                "description": "Returns post by guid.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "media"
+                ],
+                "summary": "Returns post by guid.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Post guid",
+                        "name": "guid",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/send.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/send.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/send.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/post/hashtag": {
             "post": {
                 "description": "Creates hashtag.",
@@ -814,6 +905,14 @@ const docTemplate = `{
                 "user_id": {
                     "type": "integer",
                     "example": 1
+                }
+            }
+        },
+        "mapi.SavePostResponse": {
+            "type": "object",
+            "properties": {
+                "guid": {
+                    "type": "string"
                 }
             }
         },

@@ -4,6 +4,7 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	httpSwagger "github.com/swaggo/http-swagger/v2"
+	mapi "github.com/v1tbrah/api-gateway/internal/api/media-api"
 
 	_ "github.com/v1tbrah/api-gateway/docs"
 	fapi "github.com/v1tbrah/api-gateway/internal/api/feed-api"
@@ -71,6 +72,14 @@ func (a *API) newRouter() (r *chi.Mux) {
 		newFAPI := fapi.New(a.feedServiceClient)
 
 		r.Get("/{id}", newFAPI.GetFeed)
+	})
+
+	r.Route("/media", func(r chi.Router) {
+
+		newMAPI := mapi.New(a.mediaServiceClient)
+
+		r.Get("/post/{guid}", newMAPI.GetPost)
+		r.Post("/post", newMAPI.SavePost)
 	})
 
 	r.Mount("/swagger", httpSwagger.WrapHandler)

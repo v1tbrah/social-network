@@ -1,0 +1,9 @@
+
+[1 1inch price]
+https://api.yetanotherdefi.com/v1/42161/price?amount=600000000&buyTokenPercentageFee=1&feeRecipient=0xdac17f958d2ee523a2206206994597c13d831ec7&fromTokenAddress=0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE&includeAggregator=1inch&rfqOnly=false&sellTokenPercentageFee=1&slippage=20&toTokenAddress=0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1
+
+[250 odos quote]
+https://api.yetanotherdefi.com/v1/250/quote?amount=600000000&buyTokenPercentageFee=1&feeRecipient=0xdac17f958d2ee523a2206206994597c13d831ec7&fromTokenAddress=0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE&includeAggregator=odos&rfqOnly=false&sellTokenPercentageFee=1&slippage=20&toTokenAddress=0x8D11eC38a3EB5E956B052f67Da8Bdc9bef8Abf3E
+
+[1 odos quote]
+https://api.yetanotherdefi.com/v1/1/quote?amount=1500000000&buyTokenPercentageFee=1&feeRecipient=0xdac17f958d2ee523a2206206994597c13d831ec7&fromTokenAddress=0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE&includeAggregator=1inch&rfqOnly=false&sellTokenPercentageFee=1&slippage=20&toTokenAddress=0x6b175474e89094c44da98b954eedeac495271d0f

@@ -33,6 +33,7 @@ services:
       - post-service
       - relation-service
       - feed-service
+      - media-service
     environment:
       - HTTP_HOST=0.0.0.0
       - HTTP_PORT=80
@@ -45,6 +46,8 @@ services:
       - RELATION_SERVICE_CLIENT_PORT=4040
       - FEED_SERVICE_CLIENT_HOST=feed-service
       - FEED_SERVICE_CLIENT_PORT=3030
+      - MEDIA_SERVICE_CLIENT_HOST=media-service
+      - MEDIA_SERVICE_CLIENT_PORT=2020
     networks:
       - default-network
 
@@ -222,6 +225,45 @@ services:
       interval: 500ms
       timeout: 1s
       retries: 10
+    networks:
+      - default-network
+
+  media-service:
+    image: v1tbrah/media-service:v1-release
+    container_name: media-service
+    depends_on:
+      media-service-minio:
+        condition: service_healthy
+    environment:
+      - GRPC_HOST=0.0.0.0
+      - GRPC_PORT=2020
+      - LOG_LVL=info
+      - MINIO_HOST=media-service-minio
+      - MINIO_PORT=9000
+      - MINIO_ACCESS_KEY=minioadmin
+      - MINIO_SECRET_KEY=minioadmin
+      - MINIO_POST_BUCKET_NAME=post
+    ports:
+      - "2020:2020"
+    networks:
+      - default-network
+
+  media-service-minio:
+    container_name: media-service-minio
+    image: quay.io/minio/minio:RELEASE.2022-02-18T01-50-10Z
+    healthcheck:
+      test: [ 'CMD-SHELL', 'curl -I http://localhost:9000/minio/health/live' ]
+      interval: 5s
+      timeout: 5s
+      start_period: 5s
+    volumes:
+      - ./dependencies/minio-service/minio-data:/data
+    environment:
+      MINIO_ROOT_USER: 'minio_user'
+      MINIO_ROOT_PASSWORD: 'minio_password'
+      MINIO_ADDRESS: ':9000'
+      MINIO_CONSOLE_ADDRESS: ':9001'
+    command: minio server /data
     networks:
       - default-network
 
