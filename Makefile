@@ -1,5 +1,5 @@
 start:
-	docker-compose up -d --scale api-gateway=3
+	docker-compose up -d
 
 stop:
 	docker-compose down

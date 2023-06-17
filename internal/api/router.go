@@ -3,11 +3,12 @@ package api
 import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	httpSwagger "github.com/swaggo/http-swagger/v2"
-	mapi "github.com/v1tbrah/api-gateway/internal/api/media-api"
 
 	_ "github.com/v1tbrah/api-gateway/docs"
 	fapi "github.com/v1tbrah/api-gateway/internal/api/feed-api"
+	mapi "github.com/v1tbrah/api-gateway/internal/api/media-api"
 	papi "github.com/v1tbrah/api-gateway/internal/api/post-api"
 	rapi "github.com/v1tbrah/api-gateway/internal/api/relation-api"
 	uapi "github.com/v1tbrah/api-gateway/internal/api/user-api"
@@ -20,13 +21,15 @@ import (
 //	@license.name	Apache 2.0
 //	@license.url	http://www.apache.org/licenses/LICENSE-2.0.html
 
-//	@BasePath	/
+// @BasePath	/
 func (a *API) newRouter() (r *chi.Mux) {
 	r = chi.NewRouter()
 
 	r.Use(middleware.Logger)
 
 	r.Get("/ping", a.ping)
+
+	r.Handle("/metrics", promhttp.Handler())
 
 	r.Route("/user", func(r chi.Router) {
 
