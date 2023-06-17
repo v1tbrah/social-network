@@ -8,6 +8,7 @@ volumes:
   user-storage-data: {}
   post-storage-data: {}
   feed-cache-data: {}
+  grafana: {}
 
 services:
 
@@ -15,7 +16,7 @@ services:
     image: nginx:latest
     volumes:
       - type: bind
-        source: ./conf/nginx/nginx.conf
+        source: ./config/nginx/nginx.conf
         target: /etc/nginx/conf.d/default.conf
         read_only: true
     ports:
@@ -243,8 +244,6 @@ services:
       - MINIO_ACCESS_KEY=minioadmin
       - MINIO_SECRET_KEY=minioadmin
       - MINIO_POST_BUCKET_NAME=post
-    ports:
-      - "2020:2020"
     networks:
       - default-network
 
@@ -267,6 +266,28 @@ services:
     networks:
       - default-network
 
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./infrastructure/prometheus/prometheus.yaml:/etc/prometheus/prometheus.yml
+    networks:
+      - default-network
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - ./infrastructure/grafana/datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml
+      - grafana:/var/lib/grafana
+    networks:
+      - default-network
+
   zookeeper:
     hostname: zookeeper
     image: wurstmeister/zookeeper:3.4.6
@@ -276,7 +297,7 @@ services:
   kafka:
     image: wurstmeister/kafka
     env_file:
-      - conf/kafka/.env
+      - config/kafka/.env
     depends_on:
       - zookeeper
     healthcheck:
