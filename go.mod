@@ -13,6 +13,7 @@ require (
 	github.com/v1tbrah/feed-service v0.0.0-20230610173000-247c972a8b3a
 	github.com/v1tbrah/media-service v0.0.0-20230612174719-2e1da011a7e2
 	github.com/v1tbrah/post-service v0.0.0-20230610172139-6e6e385d3079
+	github.com/v1tbrah/promcli v0.0.0-20230618172245-2c486ed90859
 	github.com/v1tbrah/relation-service v0.0.0-20230610171002-639ff106ff94
 	github.com/v1tbrah/user-service v0.0.0-20230610171519-29c3aa6305af
 	google.golang.org/grpc v1.55.0

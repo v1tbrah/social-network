@@ -95,6 +95,8 @@ github.com/v1tbrah/media-service v0.0.0-20230612174719-2e1da011a7e2 h1:NnIepicfr
 github.com/v1tbrah/media-service v0.0.0-20230612174719-2e1da011a7e2/go.mod h1:bgBIFeHjja8kyTahfjGAt/UzYuWPhyvf79NA+Zv6AJQ=
 github.com/v1tbrah/post-service v0.0.0-20230610172139-6e6e385d3079 h1:ru1AAjkT3F0eyvLsnAtZc4TA2T8VaFK6jIUp1+gmLdg=
 github.com/v1tbrah/post-service v0.0.0-20230610172139-6e6e385d3079/go.mod h1:ShpHX389y0ifR3PrtNaUgP7b8hlUkb34AQTsv9NDl2c=
+github.com/v1tbrah/promcli v0.0.0-20230618172245-2c486ed90859 h1:B1quF9cvFUBvHeQkCdUbSiwzFl39s4PSk8qXqvzYKLM=
+github.com/v1tbrah/promcli v0.0.0-20230618172245-2c486ed90859/go.mod h1:UNW9MuGOg10kVzjhV7n/ACbACB/ul0EoeKG0Jru9oC4=
 github.com/v1tbrah/relation-service v0.0.0-20230610171002-639ff106ff94 h1:GVVRs/PtXBOsh10tJJ4DmXZC9zrZOJ0F7/o2Wf3eVog=
 github.com/v1tbrah/relation-service v0.0.0-20230610171002-639ff106ff94/go.mod h1:zvJDymYtwW2Oh2+ojWd95gwVlQnbgBu08DQChXCZSOY=
 github.com/v1tbrah/user-service v0.0.0-20230610171519-29c3aa6305af h1:uY9JuwdhoWh8La8ETFBFw9hIpJiM8lUUmj8dUdnHnHA=

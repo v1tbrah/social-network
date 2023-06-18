@@ -6,5 +6,6 @@ import (
 )
 
 func (a *API) ping(w http.ResponseWriter, r *http.Request) {
-	io.WriteString(w, http.StatusText(http.StatusOK))
+	w.WriteHeader(http.StatusOK)
+	_, _ = io.WriteString(w, http.StatusText(http.StatusOK))
 }

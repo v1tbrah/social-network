@@ -5,7 +5,6 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	httpSwagger "github.com/swaggo/http-swagger/v2"
-
 	_ "github.com/v1tbrah/api-gateway/docs"
 	fapi "github.com/v1tbrah/api-gateway/internal/api/feed-api"
 	mapi "github.com/v1tbrah/api-gateway/internal/api/media-api"
@@ -27,12 +26,15 @@ func (a *API) newRouter() (r *chi.Mux) {
 
 	r.Use(middleware.Logger)
 
-	r.Get("/ping", a.ping)
+	r.Use(a.registerMetrics)
+
+	r.Mount("/swagger", httpSwagger.WrapHandler)
 
 	r.Handle("/metrics", promhttp.Handler())
 
-	r.Route("/user", func(r chi.Router) {
+	r.Get("/ping", a.ping)
 
+	r.Route("/user", func(r chi.Router) {
 		newUAPI := uapi.New(a.userServiceClient)
 
 		r.Post("/city", newUAPI.CreateCity)
@@ -45,11 +47,9 @@ func (a *API) newRouter() (r *chi.Mux) {
 
 		r.Post("/user", newUAPI.CreateUser)
 		r.Get("/user/{id}", newUAPI.GetUser)
-
 	})
 
 	r.Route("/post", func(r chi.Router) {
-
 		newPAPI := papi.New(a.postServiceClient)
 
 		r.Post("/hashtag", newPAPI.CreateHashtag)
@@ -62,7 +62,6 @@ func (a *API) newRouter() (r *chi.Mux) {
 	})
 
 	r.Route("/relation", func(r chi.Router) {
-
 		newRAPI := rapi.New(a.relationServiceClient)
 
 		r.Post("/friend", newRAPI.AddFriend)
@@ -71,21 +70,17 @@ func (a *API) newRouter() (r *chi.Mux) {
 	})
 
 	r.Route("/feed", func(r chi.Router) {
-
 		newFAPI := fapi.New(a.feedServiceClient)
 
 		r.Get("/{id}", newFAPI.GetFeed)
 	})
 
 	r.Route("/media", func(r chi.Router) {
-
 		newMAPI := mapi.New(a.mediaServiceClient)
 
 		r.Get("/post/{guid}", newMAPI.GetPost)
 		r.Post("/post", newMAPI.SavePost)
 	})
-
-	r.Mount("/swagger", httpSwagger.WrapHandler)
 
 	return r
 }

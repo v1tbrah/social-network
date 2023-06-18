@@ -8,26 +8,26 @@ import (
 
 	"github.com/pkg/errors"
 	"github.com/rs/zerolog/log"
-	"github.com/v1tbrah/media-service/mpbapi"
+	"github.com/v1tbrah/promcli"
 
 	"github.com/v1tbrah/api-gateway/config"
-
 	"github.com/v1tbrah/feed-service/fpbapi"
-
+	"github.com/v1tbrah/media-service/mpbapi"
 	"github.com/v1tbrah/post-service/ppbapi"
-
 	"github.com/v1tbrah/relation-service/rpbapi"
-
 	"github.com/v1tbrah/user-service/upbapi"
 )
 
 type API struct {
-	server                *http.Server
+	server *http.Server
+
 	userServiceClient     upbapi.UserServiceClient
 	postServiceClient     ppbapi.PostServiceClient
 	relationServiceClient rpbapi.RelationServiceClient
 	feedServiceClient     fpbapi.FeedServiceClient
 	mediaServiceClient    mpbapi.MediaServiceClient
+
+	promCli *promcli.HTTPReg
 }
 
 // New returns new API.
@@ -41,11 +41,14 @@ func New(cfg config.Config,
 		server: &http.Server{
 			Addr: net.JoinHostPort(cfg.HTTPHost, cfg.HTTPPort),
 		},
+
 		userServiceClient:     userServiceClient,
 		postServiceClient:     postServiceClient,
 		relationServiceClient: relationServiceClient,
 		feedServiceClient:     feedServiceClient,
 		mediaServiceClient:    mediaServiceClient,
+
+		promCli: promcli.NewHTTP("api_gateway", "api"),
 	}
 
 	newAPI.server.Handler = newAPI.newRouter()
