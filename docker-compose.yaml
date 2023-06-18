@@ -8,6 +8,7 @@ volumes:
   user-storage-data: {}
   post-storage-data: {}
   feed-cache-data: {}
+  prometheus-data: {}
   grafana: {}
 
 services:
@@ -272,6 +273,7 @@ services:
       - "9090:9090"
     volumes:
       - ./infrastructure/prometheus/prometheus.yaml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
     networks:
       - default-network
 
