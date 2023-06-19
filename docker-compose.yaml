@@ -64,6 +64,8 @@ services:
     environment:
       - GRPC_HOST=0.0.0.0
       - GRPC_PORT=6060
+      - HTTP_HOST=0.0.0.0
+      - HTTP_PORT=6969
       - LOG_LVL=info
       - STORAGE_HOST=user-service-storage
       - STORAGE_PORT=5432
@@ -113,6 +115,8 @@ services:
     environment:
       - GRPC_HOST=0.0.0.0
       - GRPC_PORT=5050
+      - HTTP_HOST=0.0.0.0
+      - HTTP_PORT=5959
       - LOG_LVL=info
       - STORAGE_HOST=post-service-storage
       - STORAGE_PORT=5432
@@ -164,6 +168,8 @@ services:
     environment:
       - GRPC_HOST=0.0.0.0
       - GRPC_PORT=4040
+      - HTTP_HOST=0.0.0.0
+      - HTTP_PORT=4949
       - LOG_LVL=info
       - STORAGE_HOST=relation-service-storage
       - STORAGE_PORT=7687
@@ -204,6 +210,8 @@ services:
     environment:
       - GRPC_HOST=0.0.0.0
       - GRPC_PORT=3030
+      - HTTP_HOST=0.0.0.0
+      - HTTP_PORT=3939
       - LOG_LVL=info
       - CACHE_HOST=feed-service-cache
       - CACHE_PORT=6379
@@ -239,6 +247,8 @@ services:
     environment:
       - GRPC_HOST=0.0.0.0
       - GRPC_PORT=2020
+      - HTTP_HOST=0.0.0.0
+      - HTTP_PORT=2929
       - LOG_LVL=info
       - MINIO_HOST=media-service-minio
       - MINIO_PORT=9000

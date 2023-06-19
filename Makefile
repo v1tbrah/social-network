@@ -1,7 +1,7 @@
-start:
+up:
 	docker-compose up -d
 
-stop:
+down:
 	docker-compose down
 
 mockgen:

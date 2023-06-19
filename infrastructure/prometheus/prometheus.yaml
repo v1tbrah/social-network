@@ -10,3 +10,18 @@ scrape_configs:
   - job_name: api-gateway
     static_configs:
       - targets: ["api-gateway:80"]
+  - job_name: user-service
+    static_configs:
+      - targets: ["user-service:6969"]
+  - job_name: post-service
+    static_configs:
+      - targets: ["post-service:5959"]
+  - job_name: relation-service
+    static_configs:
+      - targets: ["relation-service:4949"]
+  - job_name: feed-service
+    static_configs:
+      - targets: ["feed-service:3939"]
+  - job_name: media-service
+    static_configs:
+      - targets: ["media-service:2929"]
