@@ -3,24 +3,45 @@
 ## For what?
 This is a learning project for practice with:
 * Microservice architecture
-* gRPC
-* REST
-* Different SQL/NOSQL databases
-* Configuring Nginx
-* Configuring docker-compose
-* TODO
+* REST, GRPC
+* Databases
+  * SQL
+    * Postgres
+  * NOSQL
+    * Redis
+    * Neo4j (graph, for relations)
+    * Minio (object storage, for media)
+* Configuring
+  * Nginx
+  * docker, docker-compose
+* Observability
+  * ELK
+  * Prometheus, Grafana
+  * Jaeger
+  * Pyroscope
 
-## Start service
-`make start`
-
-http://localhost/swagger/index.html
-
-## Stop service
-`make stop`
+## Architecture
+![](arch.svg)
 
 ## Repositories of all services
-* Gitlab group: https://gitlab.com/pet-pr-social-network
+* List of all services group: https://github.com/stars/v1tbrah/lists/social-network
   * api-gateway: https://github.com/v1tbrah/api-gateway
   * user-service: https://github.com/v1tbrah/user-service
   * post-service: https://github.com/v1tbrah/post-service
   * relation-service: https://github.com/v1tbrah/relation-service
+  * feed-service: https://github.com/v1tbrah/feed-service
+  * media-service: https://github.com/v1tbrah/media-service
+
+## Getting started
+__Start__
+```sh
+make up
+```
+__Stop__
+```sh
+make down
+```
+__Open specification__
+
+http://localhost/swagger/index.html
+
